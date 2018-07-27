@@ -62,9 +62,9 @@ Example Playbook
 ----------------
 
 ```yaml
-- hosts: servers
+- hosts: ftp_server
   roles:
-     - derekmerck.pureftpd-docker
+     - derekmerck.pureftpd_docker
 ```
 
 

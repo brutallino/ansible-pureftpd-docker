@@ -18,6 +18,11 @@
   become:  yes
   when: not pftp_use_data_container
 
+- name: "Pull Pure-FTPd image - stilliard/pure-ftpd:hardened"
+  docker_image:
+    name: 'stilliard/pure-ftpd'
+    tag:  'hardened'
+
 - name: Setup Pure-FTPd container
   docker_container:
     name:  "{{ pftp_container_name }}"
