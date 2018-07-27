@@ -1,42 +1,77 @@
-Role Name
-=========
+PureFTPd-Docker
+=============
 
-A brief description of the role goes here.
+[![Build Status](https://travis-ci.org/derekmerck/ansible-pureftpd-docker.svg?branch=master)](https://travis-ci.org/derekmerck/ansible-pureftpd-docker)
+
+Configure and run a [Pure-FTPd](https://www.pureftpd.org/project/pure-ftpd) server in a Docker container.
+
 
 Requirements
 ------------
 
-pyexpect
+- [Docker][]
+- [docker-py][]
+- [pexpect][]
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+[Docker]: https://www.docker.com
+[docker-py]: https://docker-py.readthedocs.io
+[pexpect]: https://pexpect.readthedocs.io
+
 
 Role Variables
 --------------
 
-https://github.com/stilliard/docker-pure-ftpd
+### Docker Image and Tag
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Always uses the hardened [stilliard/docker-pure-ftpd][] image.
+
+[stilliard/docker-pure-ftpd]: https://github.com/stilliard/docker-pure-ftpd
+
+### Docker Container Configuration
+
+```yaml
+pftp_container_name:   "pftp"
+pftp_use_data_container: True
+pftp_data_dir:         "/data/ftp"
+pftp_port:             21
+pftp_public_host:      192.168.10.33  # TODO: Should be fqdn
+```
+
+### Service Configuration
+
+```yaml
+pftp_service_user:     "pftp"
+pftp_service_password: "passw0rd!"
+```
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+- [geerlingguy.docker](https://github.com/geerlingguy/ansible-role-docker) to setup the docker environment
+- [geerlingguy.pip](https://github.com/geerlingguy/ansible-role-pip) to install Python reqs
+
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yaml
+- hosts: servers
+  roles:
+     - derekmerck.pureftpd-docker
+```
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
 License
 -------
 
-BSD
+MIT
+
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Derek Merck  
+<derek_merck@brown.edu>  
+Rhode Island Hospital and Brown University  
+Providence, RI  
