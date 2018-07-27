@@ -1,0 +1,42 @@
+---
+# tasks file for pureftp-docker
+
+- name: Create data container
+  docker_container:
+    name: '{{ pftp_container_name + "-data" }}'
+    image: busybox
+    state: present
+    volumes:
+      - '/home/ftpusers/'
+  when: pftp_use_data_container
+
+- name:    "Setup ftp data folder"
+  file:
+    path:  "{{ pftp_data_dir }}"
+    state: directory
+    mode:  0777
+  become:  yes
+  when: not pftp_use_data_container
+
+- name: Setup Pure-FTPd container
+  docker_container:
+    name:  "{{ pftp_container_name }}"
+    image: stilliard/pure-ftpd:hardened
+    state: started
+    ports: "21:21,{% for port in range(30000, 30010) %}{{port}}:{{port}}{% if not loop.last %},{% endif %}{% endfor %}"
+    volumes:
+      - "{{ pftp_data_dir }}:/home/ftpusers/"
+    env:
+      PUBLICHOST:  "{{ pftp_public_host }}"
+      ADDED_FLAGS: -d -d -O clf:/var/log/pureftpd.log --tls=0
+
+- name: Add service user
+  include: add_user_play.yml
+  vars:
+    pftp_user:     "{{ pftp_service_user }}"
+    pftp_password: "{{ pftp_service_password }}"
+
+
+# <http://getasysadmin.com/2012/12/enable-passive-mode-for-pure-ftpd-on-aws/>
+# $ echo "30000 30009" > /etc/pure-ftpd/conf/PassivePortRange
+# $ echo "ftp.central-imaging.com" > /etc/pure-ftpd/conf/ForcePassiveIP

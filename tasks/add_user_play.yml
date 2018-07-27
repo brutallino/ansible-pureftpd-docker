@@ -1,0 +1,18 @@
+---
+- name: Check for user {{ pftp_user }}
+  command: "docker exec {{ pftp_container_name }} pure-pw show {{ pftp_user }} -f /etc/pure-ftpd/passwd/pureftpd.passwd"
+  register: result
+  ignore_errors: True
+
+- set_fact:
+    user_present: "{{ result.stdout != '' }}"
+- debug:
+    var: user_present
+
+- name: Add user {{ pftp_user }}
+  expect:
+    command:  docker exec -it {{ pftp_container_name }} pure-pw useradd {{ pftp_user }} -f /etc/pure-ftpd/passwd/pureftpd.passwd -m -u ftpuser -D /home/ftpusers/{{ pftp_user }}
+    responses:
+      (?i)password:       "{{ pftp_password }}"
+      (?i)enter it again: "{{ pftp_password }}"
+  when: not user_present

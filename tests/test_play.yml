@@ -1,0 +1,11 @@
+---
+- hosts: '{{ test_host | default( "localhost") }}'
+  roles:
+    - role: '{{ "pureftpd-docker" if test_host=="vagrant" else "ansible-pureftpd-docker" }}'
+
+  tasks:
+  - name: Add test user
+    include: ../tasks/add_user_play.yml
+    vars:
+      pftp_user:     "test_user"
+      pftp_password: "test_password"
