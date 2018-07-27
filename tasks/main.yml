@@ -38,7 +38,7 @@
 
 - name: Wait until Pure-FTPd is available
   wait_for: port={{ pftp_port }} delay=3
-  when: orthanc_container.changed
+  when: pftp_container.changed
 
 - name: Add service user
   include: add_user_play.yml
