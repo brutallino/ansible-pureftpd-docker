@@ -45,9 +45,9 @@ Always uses the hardened [stilliard/docker-pure-ftpd][] image.
 ```yaml
 pftp_container_name:   "pftp"
 pftp_use_data_container: True
-pftp_data_dir:         "/data/ftp"
+pftp_data_dir:         "/data/pftp"
 pftp_port:             21
-pftp_public_host:      192.168.10.33  # TODO: Should be fqdn
+pftp_hostname:         localhost
 ```
 
 ### Service Configuration

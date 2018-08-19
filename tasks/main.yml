@@ -32,7 +32,7 @@
     volumes:
       - "{{ pftp_data_dir }}:/home/ftpusers/"
     env:
-      PUBLICHOST:  "{{ pftp_public_host }}"
+      PUBLICHOST:  "{{ pftp_host_name }}"
       ADDED_FLAGS: -d -d -O clf:/var/log/pureftpd.log --tls=0
   register: pftp_container
 

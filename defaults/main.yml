@@ -1,13 +1,15 @@
 ---
 # defaults file for pureftp-docker
 
+data_dir: "/data"
+
 # Docker container configuration
 # -----------------------------
 pftp_container_name:   "pftp"
 pftp_use_data_container: True
-pftp_public_host:      192.168.10.33  # Should be fqdn
+pftp_host_name:        localhost  # Should be fqdn
 pftp_port:             21
-pftp_data_dir:         "/data/{{ pftp_container_name }}"
+pftp_data_dir:         "{{ data_dir }}/{{ pftp_container_name }}"
 
 # Service configuration
 # -----------------------------
