@@ -1,6 +1,6 @@
 galaxy_info:
   author: Derek Merck
-  description: Configure and run a [Pure-FTPd](https://www.pureftpd.org/project/pure-ftpd) server in a Docker container.
+  description: Configure and run a Pure-FTPd server in a Docker container.
 
   role_name: pureftpd-docker
 
