@@ -2,6 +2,7 @@
 # defaults file for pureftp-docker
 
 data_dir: "/data"
+logger:   "json-file"
 
 # Docker container configuration
 # -----------------------------
@@ -10,6 +11,10 @@ pftp_use_data_container: True
 pftp_host_name:        localhost  # Should be fqdn
 pftp_port:             21
 pftp_data_dir:         "{{ data_dir }}/{{ pftp_container_name }}"
+
+pftp_logger:            "{{ logger }}"
+pftp_log_opts:          "{{ {'splunk_name': pftp_container_name } if pftp_logger=='splunk' else {} }}"
+
 
 # Service configuration
 # -----------------------------

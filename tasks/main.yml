@@ -34,6 +34,10 @@
     env:
       PUBLICHOST:  "{{ pftp_host_name }}"
       ADDED_FLAGS: -d -d -O clf:/var/log/pureftpd.log --tls=0
+
+    log_driver:   "{{ pftp_logger }}"
+    log_options:  "{{ pftp_log_opts }}"
+
   register: pftp_container
 
 - name: Wait until Pure-FTPd is available
