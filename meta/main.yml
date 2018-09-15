@@ -18,4 +18,6 @@ dependencies:
     pip_install_packages:
       - docker
       - pexpect
+    tags: deps
   - role: geerlingguy.docker
+    tags: deps
